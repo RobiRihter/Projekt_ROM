@@ -13,7 +13,8 @@ Projekt je pripravjen pri predmetu ROM.
 
 ## Posnetek predstavitve: 
 
-## Aplikacija v oblaku: https://www.wolframcloud.com/obj/d01e0e72-f8d4-4789-bcfc-\3f759ddec9db
+## Aplikacija v oblaku: 
+     https://www.wolframcloud.com/obj/d01e0e72-f8d4-4789-bcfc-\3f759ddec9db
 
 Pripravil: *Robi Rihter*   
 
