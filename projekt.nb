@@ -1,8 +1,9 @@
-In[1]:=
-Projekt za Računalniška orodja v matematiki.
-Pridobivanje podatkev iz Wolfram data repository
-In[5]:= Podatki=ResourceData["Tornadoes in the U.S., 1950-2015"]
-Out[5]= 	
+Tornadi v ZDA
+Pridobivanje podatkov
+Podatke sem pridobil iz Wolfram Data Repository.
+In[4]:= podatki=ResourceData["Tornadoes in the U.S., 1950-2015"]
+
+Out[4]= 	
 \!\(\*RotationBox[\("\[EmptyUpTriangle]"\),
 BoxRotation->1.5707963267948966`]\)	
 \!\(\*RotationBox[\("\[EmptyUpTriangle]"\),
@@ -37,5 +38,352 @@ Texas, United States	18	Tue 31 Jan 1950 12:12:00	10	F3	15	3people	$ (50000to5000
 
 
 	\[SpanFromLeft]
-	Data not in notebook; Store now »
+	Unable to store data in notebook.
 
+
+Analiza glede na drzave
+In[2]:= podatki[1]
+Out[2]= Location	Missouri, United States
+Number	1
+Date	Sat 31 Dec 1949 03:11:00
+StateNumber	1
+Magnitude	F3
+Injuries	3
+Fatalities	0people
+EstimatedPropertyLoss	$ (500000to5000000)
+EstimatedCropLoss	\[LongDash]
+Start	38.77\[Degree]N 90.22\[Degree]W
+End	38.83\[Degree]N 90.03\[Degree]W
+MagnitudeEstimatedQ	False
+
+
+
+
+
+Drzave z najvecjim stevilom tornadov .
+In[19]:= drzave=ReverseSortBy[Tally[#["Location"]&/@podatki],Last]
+
+Out[19]= \[EmptyUpTriangle]
+
+\[EmptyDownTriangle]
+
+	Texas, United States	8538
+Kansas, United States	4094
+Oklahoma, United States	3732
+Florida, United States	3242
+Nebraska, United States	2797
+Iowa, United States	2444
+Illinois, United States	2406
+Missouri, United States	2223
+Mississippi, United States	2097
+Colorado, United States	2077
+Alabama, United States	2045
+Louisiana, United States	1897
+Arkansas, United States	1784
+South Dakota, United States	1761
+Minnesota, United States	1733
+Georgia, United States	1532
+North Dakota, United States	1495
+Indiana, United States	1443
+Wisconsin, United States	1330
+North Carolina, United States	1260
+ rows 1\[Dash]20 of 52 	\[SpanFromLeft]
+
+
+
+
+
+Iz zgornje tabele in spodnje slike lahko opazimo, da se tornadi v ZDA najpogosteje pojavljajo v Texasu.
+In[4]:= GeoRegionValuePlot[drzave,PlotLabel->"Stevilo tornadov po drzavah",ImageSize->{900,450},ColorFunction->"TemperatureMap"]
+
+Out[4]= 
+Drzava z najmajnsim stevilom tornadov (1950 - 2015)
+In[5]:= Select[drzave,#[[2]]==Min[drzave[All,2]]&]
+
+Out[5]= District of Columbia, United States	2
+
+
+
+Analiziranje stevila ranjenih oz . mrtvih
+In[137]:= ranjeni=podatki[All,"Injuries"]
+Out[137]= \[EmptyUpTriangle]
+
+\[EmptyDownTriangle]
+
+	3	3	0	3	1	1
+5	0	2	0	12	5
+6	8	0	0	32	2
+0	15	0	77	10	25
+0	0	0	8	1	0
+0	0	2	0	0	3
+1	7	20	2	0	2
+2	0	0	7	0	6
+0	0	2	0	0	8
+0	0	0	15	0	0
+0	1	0	5	32	0
+0	0	0	0	0	0
+7	2	0	1	5	0
+13	0	0	0	0	1
+12	0	3	0	0	0
+0	1	0	2	1	0
+1	0	0	0	0	0
+0	0	0	0	0	5
+0	0	0	0	1	0
+2	0	0	0	0	1
+ elements 1\[Dash]120 of 61217 	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]
+
+	\[SpanFromLeft]
+	
+
+
+In[138]:= umrli = podatki[All, "Fatalities"]
+Out[138]= \[EmptyUpTriangle]
+
+\[EmptyDownTriangle]
+
+	0people	0people	0people	0people	0people	1person
+0people	0people	0people	0people	1person	0people
+0people	1person	0people	0people	0people	3people
+0people	3people	0people	18people	5people	5people
+0people	0people	0people	0people	9people	0people
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	1person
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	1person
+0people	0people	0people	0people	0people	0people
+0people	1person	0people	5people	5people	0people
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	1person	0people
+1person	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	0people
+0people	0people	0people	0people	0people	0people
+ elements 1\[Dash]120 of 61217 	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]
+
+	\[SpanFromLeft]
+	Data not in notebook. Store now
+
+
+Celotni število ranjenih.
+In[10]:= Total[ranjeni]
+Out[10]= 107099
+Celotno število umrlih .
+In[12]:= Total[umrli]
+Out[12]= 6851people
+Iz zgornjih dveh števil lahko vidimo, da je število umrlih pri pojavitvah tornadov veliko manjše kot število ranjenih kar je dobro.
+
+Število ranjenih in umrlih za določeno državo (npr. Texas)
+In[10]:= Prikaz[lokacija_]:=Total[podatki[Select[#"Location"==lokacija &],{6,7}]]
+In[11]:= Prikaz[Texas, United States	administrative division]
+Out[11]= <|Injuries->11075,Fatalities->634people|>
+Magnitude tornadov
+Število tornadov z določeno magnitudo.
+In[6]:= vse = podatki[All, "Magnitude"];
+In[7]:= Mag[magnituda_]:= {magnituda, Count[vse, magnituda]}
+In[8]:= stvseh= SortBy[Mag/@(vse//DeleteDuplicates), Last]
+Out[8]= EF5	11
+F5	77
+EF4	81
+EF3	284
+F4	628
+EF2	924
+F3	2363
+EF1	3155
+EF0	5570
+F2	8265
+F1	17343
+F0	22516
+
+
+
+
+
+Lestvica F temelji na količini škode, ki jo povzroči tornado, medtem ko se lestvica EF  se bolj zanaša na hitrost vetra za določanje tornada.
+
+Vidimo lahko, da je bilo največ tornadov tipa F0 in F1 kateri povzročijo lahko oz. zmerno škodo.
+
+In[93]:= BarChart[{{11,77,81,284,628,924,2363,3155,5570,8265,17343,22516}},ChartLabels->{"EF5","F5","EF4","EF3","F4","EF2","F3","EF1", "EF0", "F2","F1","F0"}]
+Out[93]= 
+Število ranjenih skozi leta v  Texasu 
+In[100]:= teksas= podatki[Select[#"Location"==Texas, United States	administrative division&],{3, 6}]
+Out[100]= \[EmptyUpTriangle]
+
+\[EmptyDownTriangle]
+
+	Date	Injuries
+Sat 31 Dec 1949 02:18:00	2
+Tue 31 Jan 1950 11:13:10	0
+Tue 31 Jan 1950 11:13:50	12
+Tue 31 Jan 1950 11:21:00	5
+Tue 31 Jan 1950 11:23:55	6
+Tue 31 Jan 1950 12:00:30	8
+Tue 31 Jan 1950 12:01:15	0
+Tue 31 Jan 1950 12:06:10	0
+Tue 31 Jan 1950 12:11:57	32
+Tue 31 Jan 1950 12:12:00	15
+Fri 31 Mar 1950 04:18:00	5
+Fri 31 Mar 1950 05:15:30	0
+Sun 30 Apr 1950 04:20:30	13
+Sun 30 Apr 1950 14:16:00	0
+Sun 30 Apr 1950 15:00:01	0
+Sun 30 Apr 1950 01:16:30	0
+Sun 30 Apr 1950 05:17:00	0
+Wed 31 May 1950 05:15:55	6
+Wed 31 May 1950 05:16:00	2
+Wed 31 May 1950 19:20:40	0
+ rows 1\[Dash]20 of 8538 	\[SpanFromLeft]
+
+	\[SpanFromLeft]
+	
+
+
+In[117]:= Max[teksas[All,{2}]]
+Out[117]= 1740
+Največje število ranjenih je zaradi tornadi je bilo kar 1740 in 42 mrtvih.
+In[124]:= Select[podatki,#["Injuries"]==1740&]
+Out[124]= 
+\!\(\*RotationBox[\("\[EmptyUpTriangle]"\),
+BoxRotation->1.5707963267948966`]\)	
+\!\(\*RotationBox[\("\[EmptyUpTriangle]"\),
+BoxRotation->-1.5707963267948966`]\)
+Location	Number	Date	StateNumber	Magnitude	Injuries	Fatalities	EstimatedPropertyLoss	EstimatedCropLoss	Start
+Texas, United States	124	Sat 31 Mar 1979 10:17:50	43	F4	1740	42people	$ (50000000to500000000)	\[LongDash]	33.82\[Degree]N 98.65\[Degree]W
+Texas, United States	124	Sat 31 Mar 1979 10:17:50	43	F4	1740	42people	$ (50000000to500000000)	\[LongDash]	33.82\[Degree]N 98.65\[Degree]W
+ columns 1\[Dash]10 of 12 	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]
+
+
+
+
+
+
+
+Vidimo, da je bil tornado kar z magnitudo F4 in da so bile skode ogromne, hitrosti taksnih tornadov presegajo 350km/h.
+Materialne Škode (od leta 2010 do 2015) v Texasu
+In[46]:= podatki2 = podatki[54145;;]
+Out[46]= 	
+\!\(\*RotationBox[\("\[EmptyUpTriangle]"\),
+BoxRotation->1.5707963267948966`]\)	
+\!\(\*RotationBox[\("\[EmptyUpTriangle]"\),
+BoxRotation->-1.5707963267948966`]\)
+\[EmptyUpTriangle]
+
+\[EmptyDownTriangle]
+
+	Location	Number	Date	StateNumber	Magnitude	Injuries	Fatalities	EstimatedPropertyLoss	EstimatedCropLoss	Start
+California, United States	31	Sun 31 Jan 2010 03:18:45	7	EF0	0	0people	\[LongDash]	\[LongDash]	35.3\[Degree]N 119.3\[Degree]W
+Oklahoma, United States	32	Sun 28 Feb 2010 08:17:20	1	EF2	0	0people	$ 1000000	\[LongDash]	35.56\[Degree]N 99.46\[Degree]W
+Oklahoma, United States	33	Sun 28 Feb 2010 08:18:16	2	EF0	0	0people	\[LongDash]	\[LongDash]	35.74\[Degree]N 99.19\[Degree]W
+California, United States	34	Sun 28 Feb 2010 08:18:25	8	EF0	0	0people	$ 50\[ThinSpace]000.00	\[LongDash]	39.73\[Degree]N 122.6\[Degree]W
+Arkansas, United States	35	Sun 28 Feb 2010 10:16:17	1	EF0	0	0people	\[LongDash]	\[LongDash]	33.91\[Degree]N 93.7\[Degree]W
+Arkansas, United States	36	Sun 28 Feb 2010 10:18:26	2	EF1	0	0people	$ 875\[ThinSpace]000.00	\[LongDash]	34.59\[Degree]N 92.66\[Degree]W
+Arkansas, United States	37	Sun 28 Feb 2010 10:20:19	3	EF1	2	0people	$ 950\[ThinSpace]000.00	\[LongDash]	35.24\[Degree]N 91.91\[Degree]W
+Arkansas, United States	38	Sun 28 Feb 2010 10:20:53	4	EF1	0	0people	$ 50\[ThinSpace]000.00	\[LongDash]	35.44\[Degree]N 91.7\[Degree]W
+Arkansas, United States	39	Sun 28 Feb 2010 10:21:09	5	EF2	3	1person	$ 250\[ThinSpace]000.00	\[LongDash]	35.4\[Degree]N 92.14\[Degree]W
+Arkansas, United States	40	Sun 28 Feb 2010 10:21:30	6	EF1	0	0people	$ 1.2*10^6	\[LongDash]	35.63\[Degree]N 91.53\[Degree]W
+Missouri, United States	41	Sun 28 Feb 2010 10:22:25	1	EF1	0	0people	\[LongDash]	\[LongDash]	38.44\[Degree]N 92.03\[Degree]W
+Missouri, United States	42	Sun 28 Feb 2010 10:22:34	2	EF0	0	0people	\[LongDash]	\[LongDash]	38.66\[Degree]N 91.92\[Degree]W
+Missouri, United States	43	Sun 28 Feb 2010 10:22:36	3	EF0	0	0people	\[LongDash]	\[LongDash]	38.69\[Degree]N 91.9\[Degree]W
+Missouri, United States	44	Sun 28 Feb 2010 10:23:30	4	EF1	1	0people	$ 200\[ThinSpace]000.00	\[LongDash]	36.59\[Degree]N 90.79\[Degree]W
+Mississippi, United States	45	Sun 28 Feb 2010 11:03:05	3	EF1	0	0people	$ 100\[ThinSpace]000.00	$ 200\[ThinSpace]000.00	32.42\[Degree]N 89.58\[Degree]W
+Mississippi, United States	46	Sun 28 Feb 2010 11:03:09	4	EF1	0	0people	$ 50\[ThinSpace]000.00	$ 100\[ThinSpace]000.00	32.45\[Degree]N 89.56\[Degree]W
+Florida, United States	47	Sun 28 Feb 2010 11:13:23	5	EF0	0	0people	\[LongDash]	\[LongDash]	28.73\[Degree]N 82.58\[Degree]W
+Florida, United States	48	Sun 28 Feb 2010 11:15:50	6	EF0	0	0people	$ 2\[ThinSpace]000.00	\[LongDash]	28.08\[Degree]N 81.78\[Degree]W
+Florida, United States	49	Sun 28 Feb 2010 11:15:53	7	EF1	0	0people	$ 200\[ThinSpace]000.00	\[LongDash]	28.07\[Degree]N 81.56\[Degree]W
+Georgia, United States	50	Sun 28 Feb 2010 12:15:48	2	EF0	0	0people	$ 50\[ThinSpace]000.00	\[LongDash]	32.23\[Degree]N 83.75\[Degree]W
+ rows 1\[Dash]20 of 7073  columns 1\[Dash]10 of 12 	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]	\[SpanFromLeft]
+
+
+
+	\[SpanFromLeft]
+	Data not in notebook. Store now
+
+
+In[83]:= fun[drzava_]:=podatki2[Select[#"Location"==drzava&],{1,8}]
+In[125]:= tab2 = fun[Texas, United States	administrative division]
+Out[125]= \[EmptyUpTriangle]
+
+\[EmptyDownTriangle]
+
+	Location	EstimatedPropertyLoss
+Texas, United States	$ 5\[ThinSpace]000.00
+Texas, United States	\[LongDash]
+Texas, United States	\[LongDash]
+Texas, United States	\[LongDash]
+Texas, United States	\[LongDash]
+Texas, United States	$ 3\[ThinSpace]000.00
+Texas, United States	\[LongDash]
+Texas, United States	\[LongDash]
+Texas, United States	\[LongDash]
+Texas, United States	\[LongDash]
+Texas, United States	$ 100\[ThinSpace]000.00
+Texas, United States	$ 300\[ThinSpace]000.00
+Texas, United States	\[LongDash]
+Texas, United States	\[LongDash]
+Texas, United States	$ 30\[ThinSpace]000.00
+Texas, United States	$ 5\[ThinSpace]000.00
+Texas, United States	$ 50\[ThinSpace]000.00
+Texas, United States	$ 75\[ThinSpace]000.00
+Texas, United States	$ 10\[ThinSpace]000.00
+Texas, United States	$ 50\[ThinSpace]000.00
+ rows 1\[Dash]20 of 692 	\[SpanFromLeft]
+
+
+
+
+
+Skupna vredno škode.
+In[127]:= Total[tab2[All,{2}]]
+Out[127]= <|EstimatedPropertyLoss->407 Missing[NotAvailable]+$ 1.14069*10^9|>
+In[136]:= Max[tab2[All,{2}]]
+Out[136]= Max[Missing[NotAvailable],$ 4.00003*10^8]
+Vidimo lahko, da so škode zaradi tornadov lahko zelo velike.
+Število tornadov skozi leta
+Katerega leta je bilo največ tornadov.
+In[101]:= datumi=podatki[All,"Date"];
+In[109]:= letnice=DateObject[#,"Year"]&/@datumi;
+In[110]:= tabela=ReverseSortBy[Tally[#&/@letnice],Last]
+Out[110]= \[EmptyUpTriangle]
+
+\[EmptyDownTriangle]
+
+	2004	1872
+2011	1840
+2008	1656
+1998	1611
+2003	1418
+1992	1314
+2010	1299
+2005	1281
+1995	1252
+2001	1230
+2009	1208
+1996	1196
+2015	1184
+2007	1183
+1993	1179
+1990	1169
+1999	1162
+1997	1151
+1991	1130
+1994	1117
+ rows 1\[Dash]20 of 68 	\[SpanFromLeft]
+
+
+
+
+
+Največje število tornadov je bilo leta 2004.
+In[114]:= DateListPlot[tabela, ImageSize -> Large]
+Out[114]= 
+Skozi čas lahko opazimo, da se število tornadov nekoliko povečuje , kar ni dobro za prihodnost.
+Aplikacija v oblaku
+Aplikacija bo za dano drzavo izrisala graf kateri bo prikazoval stevila tornadov od leta 1950 do 2015.
+In[165]:= Graf[drzava_]:=Graphics[DateListPlot[ReverseSortBy[Tally[#&/@DateObject[#,"Year"]&/@Select[podatki,#["Location"]==drzava&][All,"Date"]],Last], ImageSize -> Large,PlotLabel->"Števila tornadov skozi leta v dani državi."]]
+In[168]:= obrazec=FormPage["drzava"->"AdministrativeDivision",Graf[#drzava]&,AppearanceRules-><|"Title"->"Graf v odvisnosti od drzave",
+				"Description"->"Vnesi ime ZDA države","SubmitLabel"->"Potrdi"|>];
+In[169]:= CloudDeploy[obrazec,Permissions->"Public"]
+Out[169]= CloudObject[https://www.wolframcloud.com/obj/d01e0e72-f8d4-4789-bcfc-3f759ddec9db]
+\[AliasDelimiter]
