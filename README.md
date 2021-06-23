@@ -11,10 +11,12 @@ Projekt je pripravjen pri predmetu ROM.
 2. Analiziranje števil tornadov glede na določeno državo.
 3. Pregled premoženjskih izgub.
 
-## Posnetek predstavitve: 
+### Posnetek predstavitve: 
+https://youtu.be/77teQ1wm1SU
 
-## Aplikacija v oblaku: 
-     https://www.wolframcloud.com/obj/d01e0e72-f8d4-4789-bcfc-\3f759ddec9db
+### Aplikacija v oblaku: 
+https://www.wolframcloud.com/obj/79083a85-b46b-40e2-afbc-416e4c78a379 
+
 
 Pripravil: *Robi Rihter*   
 
